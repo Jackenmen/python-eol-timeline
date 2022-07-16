@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.11
 # vim:fileencoding=utf-8
 # (c) 2021 Michał Górny <mgorny@gentoo.org>
 # Released under the terms of the 2-clause BSD license.
@@ -7,7 +7,7 @@ import argparse
 import collections
 import itertools
 import sys
-import toml
+import tomllib
 
 
 PROLOGUE = """
@@ -75,11 +75,7 @@ def version_key(version):
 
 def main():
     argp = argparse.ArgumentParser()
-    argp.add_argument(
-        "toml",
-        type=argparse.FileType(encoding="utf-8"),
-        help="Input TOML file",
-    )
+    argp.add_argument("toml", type=argparse.FileType("rb"), help="Input TOML file")
     argp.add_argument(
         "-o",
         "--output",
@@ -89,7 +85,7 @@ def main():
     )
     args = argp.parse_args()
 
-    data = toml.load(args.toml)
+    data = tomllib.load(args.toml)
     args.toml.close()
 
     with args.output as f:
