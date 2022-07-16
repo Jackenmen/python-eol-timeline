@@ -125,12 +125,31 @@ rc1 = 2020-08-11
 final = 2020-10-05
 last-bugfix = 2022-05-02
 last-bugfix-ver = "3.9.11"
-# eol = 2025-10-01
+eol = 2025-10-01
 
 [upstream."3.10"]
 dev = 2020-05-18
 alpha1 = 2020-10-05
 beta1 = 2021-05-03
-rc1 = 2021-08-02
+rc1 = 2021-08-03
 final = 2021-10-04
-last-bugfix = 2023-04-04  # approximate
+last-bugfix = 2023-04-03
+eol = 2026-10-01
+
+[upstream."3.11"]
+dev = 2021-05-03
+alpha1 = 2021-10-05
+beta1 = 2022-05-08
+rc1 = 2022-08-01
+final = 2022-10-03
+last-bugfix = 2024-04-01
+eol = 2027-10-01
+
+[upstream."3.12"]
+dev = 2022-05-08
+alpha1 = 2022-10-03
+beta1 = 2023-05-08
+rc1 = 2023-07-31
+final = 2023-10-02
+last-bugfix = 2025-04-07
+eol = 2028-10-01
