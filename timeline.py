@@ -87,27 +87,13 @@ def main():
         required=True,
         help="Output HTML file",
     )
-    argp.add_argument(
-        "-u",
-        "--upstream-only",
-        action="store_true",
-        help="Include only upstream release data",
-    )
     args = argp.parse_args()
 
     data = toml.load(args.toml)
     args.toml.close()
 
     with args.output as f:
-        print(
-            PROLOGUE.replace(
-                "{title}",
-                "Python release and Gentoo packaging timeline"
-                if not args.upstream_only
-                else "Python release timeline",
-            ),
-            file=f,
-        )
+        print(PROLOGUE.replace("{title}", "Python release timeline"), file=f)
 
         max_eol = None
         all_rows = collections.defaultdict(list)
@@ -138,42 +124,7 @@ def main():
                 else:
                     assert max_eol is not None
                     bars.append(("future", max_eol))
-                all_rows[version].append(
-                    (f"{version} upstream" if not args.upstream_only else version, bars)
-                )
-
-        if not args.upstream_only:
-            for version in sorted(versions, key=version_key):
-                vdata = data.get("package", {}).get(version)
-                if vdata is not None:
-                    bars = []
-                    bars.append(("~arch", vdata["testing"]))
-                    if "stable" in vdata:
-                        bars.append(("stable", vdata["stable"]))
-                    if "removal" in vdata:
-                        bars.append(("removal", vdata["removal"]))
-                    else:
-                        bars.append(("future", max_eol))
-                    all_rows[version].append((f"{version} package", bars))
-
-                vdata = data.get("target", {}).get(version)
-                if vdata is not None:
-                    bars = []
-                    if "python-eclass" in vdata:
-                        bars.append(("python.eclass", vdata["python-eclass"]))
-                    if "testing" in vdata:
-                        bars.append(("~arch", vdata["testing"]))
-                    if "stable" in vdata:
-                        bars.append(("stable", vdata["stable"]))
-                    if "default" in vdata:
-                        bars.append(("default", vdata["default"]))
-                    if "old" in vdata:
-                        bars.append(("old", vdata["old"]))
-                    if "removal" in vdata:
-                        bars.append(("removal", vdata["removal"]))
-                    else:
-                        bars.append(("future", max_eol))
-                    all_rows[version].append((f"{version} target", bars))
+                all_rows[version].append((version, bars))
 
         for version in sorted(versions, key=version_key):
             for label, bars in all_rows[version]:
