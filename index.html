@@ -1,0 +1,95 @@
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Python release timeline</title>
+    <style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+    header, footer {
+        background-color: #c6c3c5;
+        padding: 10px;
+        text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js">
+    </script>
+
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["timeline"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var container = document.getElementById('timeline');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({ type: 'string', id: 'Row' });
+        dataTable.addColumn({ type: 'string', id: 'State' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+        dataTable.addRows([
+
+          [ '3.7', 'dev', new Date(2016, 8, 12), new Date(2017, 8, 19) ],
+          [ '3.7', 'α', new Date(2017, 8, 19), new Date(2018, 0, 31) ],
+          [ '3.7', 'β', new Date(2018, 0, 31), new Date(2018, 5, 12) ],
+          [ '3.7', 'rc', new Date(2018, 5, 12), new Date(2018, 5, 27) ],
+          [ '3.7', 'stable', new Date(2018, 5, 27), new Date(2020, 5, 27) ],
+          [ '3.7', 'security', new Date(2020, 5, 27), new Date(2023, 5, 27) ],
+          [ '3.8', 'dev', new Date(2018, 0, 29), new Date(2019, 1, 3) ],
+          [ '3.8', 'α', new Date(2019, 1, 3), new Date(2019, 5, 4) ],
+          [ '3.8', 'β', new Date(2019, 5, 4), new Date(2019, 9, 1) ],
+          [ '3.8', 'rc', new Date(2019, 9, 1), new Date(2019, 9, 14) ],
+          [ '3.8', 'stable', new Date(2019, 9, 14), new Date(2021, 4, 3) ],
+          [ '3.8', 'security', new Date(2021, 4, 3), new Date(2024, 9, 1) ],
+          [ '3.9', 'dev', new Date(2019, 5, 4), new Date(2019, 10, 19) ],
+          [ '3.9', 'α', new Date(2019, 10, 19), new Date(2020, 4, 18) ],
+          [ '3.9', 'β', new Date(2020, 4, 18), new Date(2020, 7, 11) ],
+          [ '3.9', 'rc', new Date(2020, 7, 11), new Date(2020, 9, 5) ],
+          [ '3.9', 'stable', new Date(2020, 9, 5), new Date(2022, 4, 2) ],
+          [ '3.9', 'security', new Date(2022, 4, 2), new Date(2025, 9, 1) ],
+          [ '3.10', 'dev', new Date(2020, 4, 18), new Date(2020, 9, 5) ],
+          [ '3.10', 'α', new Date(2020, 9, 5), new Date(2021, 4, 3) ],
+          [ '3.10', 'β', new Date(2021, 4, 3), new Date(2021, 7, 3) ],
+          [ '3.10', 'rc', new Date(2021, 7, 3), new Date(2021, 9, 4) ],
+          [ '3.10', 'stable', new Date(2021, 9, 4), new Date(2023, 3, 3) ],
+          [ '3.10', 'security', new Date(2023, 3, 3), new Date(2026, 9, 1) ],
+          [ '3.11', 'dev', new Date(2021, 4, 3), new Date(2021, 9, 5) ],
+          [ '3.11', 'α', new Date(2021, 9, 5), new Date(2022, 4, 8) ],
+          [ '3.11', 'β', new Date(2022, 4, 8), new Date(2022, 7, 1) ],
+          [ '3.11', 'rc', new Date(2022, 7, 1), new Date(2022, 9, 3) ],
+          [ '3.11', 'stable', new Date(2022, 9, 3), new Date(2024, 3, 1) ],
+          [ '3.11', 'security', new Date(2024, 3, 1), new Date(2027, 9, 1) ],
+          [ '3.12', 'dev', new Date(2022, 4, 8), new Date(2022, 9, 3) ],
+          [ '3.12', 'α', new Date(2022, 9, 3), new Date(2023, 4, 8) ],
+          [ '3.12', 'β', new Date(2023, 4, 8), new Date(2023, 6, 31) ],
+          [ '3.12', 'rc', new Date(2023, 6, 31), new Date(2023, 9, 2) ],
+          [ '3.12', 'stable', new Date(2023, 9, 2), new Date(2025, 3, 7) ],
+          [ '3.12', 'security', new Date(2025, 3, 7), new Date(2028, 9, 1) ],
+
+        ]);
+
+        var options = {
+          avoidOverlappingGridLines: false
+        };
+
+        chart.draw(dataTable, options);
+      }
+    </script>
+    <header>Python release timeline</header>
+    <div id="timeline" style="height: 100%"></div>
+    <footer>
+        <p>Created by <a href="https://mgorny.pl">Michał Górny</a>, this fork is maintained by <a href="https://github.com/jack1142">Jakub Kuczys (@jack1142)</a></p>
+        <p><a href="eol.html">Show EOL releases</a></p>
+    </footer>
+  </body>
+</html>
+
