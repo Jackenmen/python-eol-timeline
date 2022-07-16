@@ -5,11 +5,15 @@
 
 import argparse
 import collections
+import datetime
 import itertools
 import sys
 import tomllib
+from pathlib import Path
 
 
+PROJECT_ROOT = Path(__file__).parent.absolute()
+OUTPUT_DIR = PROJECT_ROOT / "site"
 PROLOGUE = """
 <html>
   <head>
@@ -65,6 +69,7 @@ EPILOGUE = """
     <div id="timeline" style="height: 100%"></div>
     <footer>
         <p>Created by <a href="https://mgorny.pl">Michał Górny</a>, this fork is maintained by <a href="https://github.com/jack1142">Jakub Kuczys (@jack1142)</a></p>
+        <p>{footer_link}</p>
     </footer>
   </body>
 </html>
@@ -95,20 +100,28 @@ def version_key(version):
 def main():
     argp = argparse.ArgumentParser()
     argp.add_argument("toml", type=argparse.FileType("rb"), help="Input TOML file")
-    argp.add_argument(
-        "-o",
-        "--output",
-        type=argparse.FileType("w", encoding="utf-8"),
-        required=True,
-        help="Output HTML file",
-    )
     args = argp.parse_args()
 
     data = tomllib.load(args.toml)
     args.toml.close()
 
-    with args.output as f:
-        print(PROLOGUE.replace("{title}", "Python release timeline"), file=f)
+    OUTPUT_DIR.mkdir(exist_ok=True)
+    for eol in (False, True):
+        generate_timeline(args, data, eol)
+
+
+def generate_timeline(args, data, eol):
+    title = "Python release timeline"
+    if eol:
+        title += " including EOL releases"
+        footer_link = '<a href="index.html">Hide EOL releases</a>'
+        filename = "eol.html"
+    else:
+        footer_link = '<a href="eol.html">Show EOL releases</a>'
+        filename = "index.html"
+
+    with open(OUTPUT_DIR / filename, "w", encoding="utf-8") as f:
+        print(PROLOGUE.replace("{title}", title), file=f)
 
         max_eol = None
         all_rows = collections.defaultdict(list)
@@ -117,6 +130,8 @@ def main():
             vdata = data.get("upstream", {}).get(version)
             if vdata is not None:
                 bars = []
+                if not eol and "eol" in vdata and vdata["eol"] <= datetime.date.today():
+                    continue
                 if "dev" in vdata:
                     bars.append(("dev", vdata["dev"]))
                 bars.extend(
@@ -145,7 +160,10 @@ def main():
             for label, bars in all_rows[version]:
                 print_row(label, bars, f)
 
-        print(EPILOGUE, file=f)
+        print(
+            EPILOGUE.replace("{title}", title).replace("{footer_link}", footer_link),
+            file=f,
+        )
 
 
 if __name__ == "__main__":
