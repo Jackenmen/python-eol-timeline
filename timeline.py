@@ -75,11 +75,15 @@ def version_key(version):
 
 def main():
     argp = argparse.ArgumentParser()
-    argp.add_argument("toml", type=argparse.FileType(), help="Input TOML file")
+    argp.add_argument(
+        "toml",
+        type=argparse.FileType(encoding="utf-8"),
+        help="Input TOML file",
+    )
     argp.add_argument(
         "-o",
         "--output",
-        type=argparse.FileType("w"),
+        type=argparse.FileType("w", encoding="utf-8"),
         required=True,
         help="Output HTML file",
     )
