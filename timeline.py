@@ -15,6 +15,21 @@ PROLOGUE = """
   <head>
     <meta charset="utf-8"/>
     <title>{title}</title>
+    <style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+    header, footer {
+        background-color: #c6c3c5;
+        padding: 10px;
+        text-align: center;
+    }
+    </style>
   </head>
   <body>
     <script type="text/javascript"
@@ -46,7 +61,11 @@ EPILOGUE = """
         chart.draw(dataTable, options);
       }
     </script>
+    <header>{title}</header>
     <div id="timeline" style="height: 100%"></div>
+    <footer>
+        <p>Created by <a href="https://mgorny.pl">Michał Górny</a>, this fork is maintained by <a href="https://github.com/jack1142">Jakub Kuczys (@jack1142)</a></p>
+    </footer>
   </body>
 </html>
 """
