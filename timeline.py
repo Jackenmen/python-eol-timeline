@@ -14,7 +14,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.absolute()
 OUTPUT_DIR = PROJECT_ROOT / "site"
-PROLOGUE = """
+PROLOGUE = """\
 <html>
   <head>
     <meta charset="utf-8"/>
@@ -52,10 +52,9 @@ PROLOGUE = """
         dataTable.addColumn({ type: 'string', id: 'State' });
         dataTable.addColumn({ type: 'date', id: 'Start' });
         dataTable.addColumn({ type: 'date', id: 'End' });
-        dataTable.addRows([
-"""
+        dataTable.addRows(["""
 
-EPILOGUE = """
+EPILOGUE = """\
         ]);
 
         var options = {
